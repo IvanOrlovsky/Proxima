@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>960</width>
+    <height>562</height>
+   </rect>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Proxima</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/res/icon.svg</normaloff>:/res/icon.svg</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>960</width>
+     <height>540</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QWidget" name="sidebar" native="true">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>510</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>343</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #d664be;
+border-radius: 10px;</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>11</number>
+       </property>
+       <property name="rightMargin">
+        <number>11</number>
+       </property>
+       <item row="1" column="0" colspan="2">
+        <widget class="QWidget" name="menu" native="true">
+         <property name="styleSheet">
+          <string notr="true">background-color: #303035;</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="3" column="0">
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string/>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="1">
+              <widget class="QLabel" name="Reg_label">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Регрессия</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="Linear_Inter">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Кусочно-линейная</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QCheckBox" name="Linear_Reg">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Линейная</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="Quadratic_Inter">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Кусочно-квадратичная</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QCheckBox" name="Quadratic_Reg">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Квадратичная</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="Lagranzhe">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Полином Лагранжа</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QCheckBox" name="Hyperbolic_Reg">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Гиперболическая</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="Newton">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Полином Ньютона</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QCheckBox" name="Exponent_Reg">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Экспоненциальная</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="Inter_label">
+               <property name="font">
+                <font>
+                 <family>Comic Sans MS</family>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white;</string>
+               </property>
+               <property name="text">
+                <string>Интерполяция</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="input_grid">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
+            </property>
+            <item row="1" column="0">
+             <widget class="QLabel" name="Y_Axis_label">
+              <property name="font">
+               <font>
+                <family>Comic Sans MS</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: white;</string>
+              </property>
+              <property name="text">
+               <string>Ось ординат:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="X_Axis_label">
+              <property name="font">
+               <font>
+                <family>Comic Sans MS</family>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: white;</string>
+              </property>
+              <property name="text">
+               <string>Ось абсцисс:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="Y_input">
+              <property name="styleSheet">
+               <string notr="true">background-color: white;</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="X_input">
+              <property name="styleSheet">
+               <string notr="true">background-color: white;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="6" column="0">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0">
+           <widget class="QPushButton" name="Build_Plot_btn">
+            <property name="font">
+             <font>
+              <family>Comic Sans MS</family>
+              <pointsize>13</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: #508aa8;
+border-style: outset;
+border-width: 2px;
+border-color: beige;
+border-radius: 15px;
+padding: 5px;
+color: white;</string>
+            </property>
+            <property name="text">
+             <string>Построить график</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QPushButton" name="Quit_btn">
+            <property name="font">
+             <font>
+              <family>Comic Sans MS</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: #ba1200;
+border-style: outset;
+border-width: 2px;
+border-color: beige;
+border-radius: 15px;
+padding: 5px;
+color: white;</string>
+            </property>
+            <property name="text">
+             <string>Выйти</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QPushButton" name="Return_btn">
+            <property name="styleSheet">
+             <string notr="true">background: #bd2d87;
+border-style: outset;
+border-width: 2px;
+border-color: beige;
+border-radius: 15px;
+padding: 5px;
+color: white;</string>
+            </property>
+            <property name="text">
+             <string>Вернуться в начало координат</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QPushButton" name="sidebtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>40</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>500</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Comic Sans MS</family>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background: #303035;
+border-style: outset;
+border-width: 2px;
+border-color: beige;
+border-radius: 15px;
+padding: 5px;
+color: white;</string>
+         </property>
+         <property name="text">
+          <string>Закрыть</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
