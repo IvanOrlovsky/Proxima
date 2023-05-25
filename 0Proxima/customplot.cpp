@@ -1,12 +1,9 @@
 #include "customplot.h"
 
-#include <QDebug>
-#include <QScrollBar>
+qreal customPlot::maxScale = 1.0;
 
 customPlot::customPlot(QWidget *parent) : QGraphicsView(parent)
 {
-    MOVE_SPEED_X = 100.0;
-    MOVE_SPEED_Y = 100.0;
     plot = nullptr;
     scene = nullptr;
     grid = nullptr;
@@ -22,63 +19,28 @@ customPlot::customPlot(QWidget *parent) : QGraphicsView(parent)
     //Создание сцены
     scene = new QGraphicsScene();
     this->setScene(scene);
-    scene->setSceneRect(-this->width() / 2, -this->height() / 2, this->width(), this->height());
+    currentRect.setRect(-this->width() / 2,
+                        -this->height() / 2,
+                        this->width(),
+                        this->height());
+    scene->setSceneRect(currentRect);
 
     //Отрисовка сетки графика
     grid = new QGraphicsItemGroup();
-    //Отрисовка сетки и чисел
-    grid_step = 50;
-    grid_pen.setWidthF(0.3);
-    grid_pen.setColor(Qt::lightGray);
 
-
-//    //Вертикальные линии
-//    for(int i = 0, j = 0; i > -(int)this->width() - grid_step; i -= grid_step, j++)
-//    {
-//        verticalGrid.push_back(new QGraphicsItemGroup());
-//        verticalGrid[j]->addToGroup(scene->addLine(i, this->height() + grid_step, i, -this->height() - grid_step, grid_pen));
-//    }
-//    for(int i = 0, j = 0; i < (int)this->width() + grid_step; i += grid_step, j++)
-//    {
-//        verticalGrid.push_back(new QGraphicsItemGroup());
-//        verticalGrid[j]->addToGroup(scene->addLine(i, this->height() + grid_step, i, -this->height() - grid_step, grid_pen));
-//    }
-
-//    //Горизонтальные линии
-//    for(int i = 0, j = 0; i > -(int)this->height() - grid_step; i -= grid_step, j++)
-//    {
-//        gorizontalGrid.push_back(new QGraphicsItemGroup());
-//        gorizontalGrid[j]->addToGroup(scene->addLine(this->width() + grid_step, i, -this->width() - grid_step, i, grid_pen));
-//    }
-//    for(int i = 0, j = 0; i < (int)this->height() + grid_step; i += grid_step, j++)
-//    {
-//        gorizontalGrid.push_back(new QGraphicsItemGroup());
-//        gorizontalGrid[j]->addToGroup(scene->addLine(this->width() + grid_step, i, -this->width() - grid_step, i, grid_pen));
-//    }
-//    for(int i = 0, j = 0; i < (int)this->height() + grid_step; i += grid_step, j -= grid_step)
-//    {
-
- //   }
+    grid_step = 40;
+    gridPaint(QRectF(-this->width() / 2,
+                     -this->height() / 2,
+                     this->width(),
+                     this->height()));
 
     //Отрисовка осей
     grid_pen.setColor(Qt::black);
-    grid_pen.setWidthF(1.2);
+    grid_pen.setWidthF(1.4);
     grid->addToGroup(scene->addLine(-16777215, 0, 16777215, 0, grid_pen));
     grid->addToGroup(scene->addLine(0, 16777215, 0, -16777215, grid_pen));
 
-//    for(auto i : verticalGrid)
-//    {
-//        scene->addItem(i);
-//    }
-//    for(auto i : gorizontalGrid)
-//    {
-//        scene->addItem(i);
-//    }
-
     scene->addItem(grid);
-
-    //ставим поле зрения в центр
-    returnToCenter();
 }
 
 customPlot::~customPlot()
@@ -89,15 +51,6 @@ customPlot::~customPlot()
     delete scene;
 }
 
-void customPlot::returnToCenter()
-{
-    QTransform center;
-    center.translate(this->width() / 4, this->height() / 4);
-    center.scale(1, 1);
-
-    this->setTransform(center);
-}
-
 void customPlot::addPlot(QVector<double> x, QVector<double> y)
 {
     // Находим минимальные и максимальные значения координат x и y
@@ -106,12 +59,31 @@ void customPlot::addPlot(QVector<double> x, QVector<double> y)
     double minY = *(std::min_element(y.begin(), y.end())) * grid_step;
     double maxY = *(std::max_element(y.begin(), y.end())) * grid_step;
 
-    QRect plotRect(minX, -maxY, maxX - minX, maxY - minY);
-    scene->setSceneRect(plotRect.center().x() - this->width()/2, plotRect.center().y() - this->height()/2, this->width(), this->height());
-    this->centerOn(QRectF(plotRect.center().x() - this->width()/2, plotRect.center().y() - this->height()/2, this->width(), this->height()).center());
+    QRect plotRect(minX,
+                   -maxY,
+                   maxX - minX,
+                   maxY - minY);
+
+    currentRect.setRect(plotRect.center().x() - this->width()/2,
+                        plotRect.center().y() - this->height()/2,
+                        this->width(),
+                        this->height());
+
+    if(qMax(currentRect.width(), currentRect.height()) < qMax(plotRect.width(), plotRect.height()))
+    {
+        currentRect.setRect(plotRect.center().x() - qMax(plotRect.width(), plotRect.height())/2 - grid_step,
+                            plotRect.center().y() - qMax(plotRect.width(), plotRect.height())/2 - grid_step,
+                            qMax(plotRect.width(), plotRect.height()) + 2 * grid_step,
+                            qMax(plotRect.width(), plotRect.height()) + 2 * grid_step);
+    }
+
+    scene->setSceneRect(currentRect);
+
+    maxScale = (currentRect.width() * currentRect.height())/(plotRect.width() * plotRect.height()) / grid_step;
 
     // Очищаем предыдущий график, если есть
-    if (plot != nullptr) {
+    if (plot != nullptr)
+    {
         scene->removeItem(plot);
         delete plot;
     }
@@ -120,13 +92,18 @@ void customPlot::addPlot(QVector<double> x, QVector<double> y)
     plot = new QGraphicsItemGroup();
 
     // Отрисовываем точки графика
-    for (int i = 0; i < x.size(); i++) {
-        plot->addToGroup(scene->addEllipse(x[i] * grid_step, -y[i] * grid_step, 2, 2, QPen(QColor(250, 1, 1), 2)));
+    for (int i = 0; i < x.size() - 1; i++)
+    {
+        plot->addToGroup(scene->addLine(QLineF(x[i] * grid_step, -y[i] * grid_step, x[i + 1] * grid_step, -y[i + 1] * grid_step),
+                                        QPen(QColor(250, 1, 1), 4)));
     }
 
     // Добавляем график на сцену
     scene->addItem(plot);
+
+    gridPaint(currentRect);
 }
+
 
 void customPlot::addPoints(QVector<double> x, QVector<double> y)
 {
@@ -135,10 +112,14 @@ void customPlot::addPoints(QVector<double> x, QVector<double> y)
     dots = new QGraphicsItemGroup();
     for(int i = 0; i < x.size(); i++)
     {
-        dots->addToGroup(scene->addEllipse(x[i] * grid_step, -y[i] * grid_step, 5, 5, QPen(QColor(1,1,250)), QBrush(Qt::blue)));
+        dots->addToGroup(scene->addEllipse(x[i] * grid_step - 2.5,
+                                           -y[i] * grid_step - 2.5,
+                                           5,
+                                           5,
+                                           QPen(QColor(1,1,250)),
+                                           QBrush(Qt::blue)));
     }
     scene->addItem(dots);
-    returnToCenter();
 }
 
 void customPlot::mousePressEvent(QMouseEvent *event)
@@ -153,8 +134,6 @@ void customPlot::mousePressEvent(QMouseEvent *event)
 
 }
 
-
-
 void customPlot::mouseMoveEvent(QMouseEvent *event)
 {
     QGraphicsView::mouseMoveEvent(event);
@@ -163,21 +142,20 @@ void customPlot::mouseMoveEvent(QMouseEvent *event)
         QPoint delta = event->pos() - curruntMousePos;
         QPointF currentCenter = this->mapToScene(this->viewport()->rect().center());
 
-        // Move the center point by the mouse delta
-        QPointF newCenter(currentCenter.x() - delta.x(), currentCenter.y() - delta.y());
+        // Получаем текущий масштаб
+        qreal currentScale = this->transform().m11();
 
-        // Set the new center point of the scene
+        // Масштабируем смещение мыши в зависимости от текущего масштаба
+        delta /= currentScale;
+
+        QPointF newCenter(currentCenter.x() - delta.x(),
+                          currentCenter.y() - delta.y());
+
         this->centerOn(newCenter);
 
-        // Update the last mouse position
         curruntMousePos = event->pos();
-
-        // Update the view
-        this->update();
     }
 }
-
-
 
 void customPlot::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -189,33 +167,81 @@ void customPlot::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void customPlot::gridPaint(QRectF *currRect)
+void customPlot::gridPaint(const QRectF& currRect)
 {
-    for(qreal i = currRect->left() - 100.0; i < (currRect->right() + 100.0); i += 1.0)
+    for (auto i : verticalGrid)
     {
-        verticalGrid.push_back(new QGraphicsItemGroup());
-        verticalGrid[j]->addToGroup(scene->addLine(i, this->height() + grid_step, i, -this->height() - grid_step, grid_pen));
+        scene->removeItem(i);
+        delete i;
+    }
+    for (auto i : gorizontalGrid)
+    {
+        scene->removeItem(i);
+        delete i;
+    }
+    verticalGrid.clear();
+    gorizontalGrid.clear();
+
+    grid_pen.setWidthF(0.3);
+    grid_pen.setColor(Qt::lightGray);
+
+    for (qreal i = currRect.left() - 400.0; i < (currRect.right() + 400.0); i += 1.0)
+    {
+        if (std::fmod(i, (double)grid_step) == 0.0)
+        {
+            verticalGrid.push_back(new QGraphicsItemGroup());
+            verticalGrid[verticalGrid.size() - 1]->addToGroup(scene->addLine(i,
+                                                                             currentRect.top() - grid_step - 400.0,
+                                                                             i,
+                                                                             currentRect.bottom() + grid_step + 400.0,
+                                                                             grid_pen));
+        }
+    }
+
+    for (auto i : verticalGrid)
+    {
+        scene->addItem(i);
+    }
+
+    for (qreal i = currRect.top() - 400.0; i < (currRect.bottom() + 400.0); i += 1.0)
+    {
+        if (std::fmod(i, (double)grid_step) == 0.0)
+        {
+            gorizontalGrid.push_back(new QGraphicsItemGroup());
+            gorizontalGrid[gorizontalGrid.size() - 1]->addToGroup(scene->addLine(currentRect.left() - grid_step - 400.0,
+                                                                                 i,
+                                                                                 currentRect.right() + grid_step + 400.0,
+                                                                                 i,
+                                                                                 grid_pen));
+        }
+    }
+
+    for (auto i : gorizontalGrid)
+    {
+        scene->addItem(i);
     }
 }
+
+
 
 void customPlot::wheelEvent(QWheelEvent *event)
 {
-    QGraphicsView::wheelEvent(event);
-    QTransform scale = this->transform();
-    if(event->angleDelta().y() > 0)
+    // Получаем угол поворота колеса мыши
+    int delta = event->angleDelta().y();
+
+    // Определяем коэффициент масштабирования
+    double scaleFactor = 1.15;
+    qDebug() << this->transform().m11() << "\n";
+    qDebug() << maxScale << "\n";
+    if (delta > 0)
     {
-        scale.setMatrix(scale.m11()+ SCALE_INCREMENT, scale.m12(), scale.m13(),
-                        scale.m21(), scale.m22() + SCALE_INCREMENT, scale.m23(),
-                        scale.m31(), scale.m32(), scale.m33() );
-        this->setTransform(scale);
+        // Увеличиваем масштаб
+        this->scale(scaleFactor, scaleFactor);
     }
-    else
+    else if(qMax(this->width(), this->height()) < qMax(currentRect.width(), currentRect.height()) * this->transform().m11())
     {
-        scale.setMatrix(scale.m11()- SCALE_DECREMENT, scale.m12(), scale.m13(),
-                        scale.m21(), scale.m22() - SCALE_DECREMENT, scale.m23(),
-                        scale.m31(), scale.m32(), scale.m33() );
-        this->setTransform(scale);
+        // Уменьшаем масштаб
+        this->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
     }
 }
-
 

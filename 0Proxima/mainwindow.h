@@ -26,8 +26,6 @@ private slots:
 
     void on_Build_Plot_btn_clicked();
 
-    void on_Return_btn_clicked();
-
 private:
     Ui::MainWindow *ui;
 

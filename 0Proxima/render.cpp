@@ -12,7 +12,7 @@ QVector<double> Render::QVectorfromQString(QString input)
     for(int i = 0; i < input.size(); i++)
     {
 
-        if(input[i] != " ")
+        if(!input[i].isSpace())
         {
             temp.push_back(input[i]);
         }
@@ -30,13 +30,15 @@ QVector<double> Render::getYvector(const QString chckbx_name, const QVector<doub
 {
     QVector<double> result;
 
-    double x_value = values[0];
+    double x_value = qRound(values[0] * qPow(10, 5)) / qPow(10, 5);
 
-    while(x_value <= values[values.size() - 1])
+    while(x_value <= values[values.size() - 1]/* + 0.00001*/)
     {
         result.push_back(mp[chckbx_name]->calc(x_value));
         x_value += 0.01;
+        x_value = qRound(x_value * qPow(10, 5)) / qPow(10, 5);
     }
+
     return result;
 }
 
@@ -44,15 +46,17 @@ QVector<double> Render::getXvector(const QString value_input)
 {
     QVector<double> values = QVectorfromQString(value_input);
     QVector<double> result;
-    double x_value = values[0];
+    double x_value = qRound(values[0] * qPow(10, 5)) / qPow(10, 5);
 
-    while(x_value <= values[values.size() - 1])
+    //qDebug() << "\n----------" << 1.19 + 0.01 << "--------\n";
+    while(x_value <= values[values.size() - 1]/* + 0.00001*/)
     {
         result.push_back(x_value);
 
-
         x_value += 0.01;
+        x_value = qRound(x_value * qPow(10, 5)) / qPow(10, 5);
     }
+
 
     return result;
 }

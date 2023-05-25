@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setStyleSheet("background-color: #303035");
+    //this->setStyleSheet("background-color: white");
     this->resize(960, 540);
 
     animation = new QPropertyAnimation(ui->sidebar, "maximumWidth");
@@ -97,10 +98,3 @@ void MainWindow::on_Build_Plot_btn_clicked()
 
     Render::Render_dots(Render::QVectorfromQString(ui->X_input->text()), Render::QVectorfromQString(ui->Y_input->text()), *plot);
 }
-
-
-void MainWindow::on_Return_btn_clicked()
-{
-    plot->returnToCenter();
-}
-

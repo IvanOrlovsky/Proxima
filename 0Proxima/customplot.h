@@ -10,7 +10,8 @@
 #include <QScrollEvent>
 #include <QTransform>
 #include <QVector>
-#include <QGraphicsSimpleTextItem>
+#include <QDebug>
+#include <QScrollBar>
 
 class customPlot : public QGraphicsView
 {
@@ -19,8 +20,6 @@ class customPlot : public QGraphicsView
 public:
     customPlot(QWidget *parent = 0);
     ~customPlot();
-    //Метод возвращения в начало координат
-    void returnToCenter();
     //Метод добавления графика
     void addPlot(QVector<double> x, QVector<double> y);
     //Метод добавления точек
@@ -32,25 +31,16 @@ signals:
 private slots:
 
 private:
+    static qreal maxScale;
     QVector<QGraphicsItemGroup*> verticalGrid;
     QVector<QGraphicsItemGroup*> gorizontalGrid;
-    //скорости увеличения и уменьшения шасштаба
-    const qreal SCALE_INCREMENT = 0.2;
-    const qreal SCALE_DECREMENT = 0.2;
-    //скорости передвижения по плоскости по осям
-    qreal MOVE_SPEED_X = 100.0;
-    qreal MOVE_SPEED_Y = 100.0;
-    //Константы минимума и максимума скоростей переджижения
-    const qreal MAX_MOVE_SPEED_X = 200;
-    const qreal MAX_MOVE_SPEED_Y = 200;
-    const qreal MIN_MOVE_SPEED_X = 100;
-    const qreal MIN_MOVE_SPEED_Y = 100;
+    QRectF currentRect;
     //Переопределение методов для перемещения по плоскости
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     //
-    void gridPaint(QRectF *currRect);
+    void gridPaint(const QRectF& currRect);
     //Переопределение методa прокрутки колеса мыши для масштабирования
     void wheelEvent(QWheelEvent *event) override;
     //Координаты мыши в момент удержания графика
