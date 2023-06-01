@@ -66,33 +66,47 @@ double Lagranzh_polinom::calc(const double x_value)
 }
 
 
-//TO DO
-//Правильно сделать
 double Newton_polinom::calc(const double x_value)
 {
-    double result = y[0];
-    double den, F;
+//    double result = y[0];
+//    double den, F;
 
-    for(int i = 0; i < (int)x.size(); i++)
-    {
-        F = 0.0;
-        for(int j = 0; j <= i; j++)
-        {
-            den = 1.0;
-            for(int k = 0; k <= i; k++)
-            {
-                if(k != j)
-                {
-                    den *= (x[j] - x[k]);
-                }
-            }
-            F += y[j] / den;
+//    for(int i = 0; i < (int)x.size(); i++)
+//    {
+//        F = 0.0;
+//        for(int j = 0; j <= i; j++)
+//        {
+//            den = 1.0;
+//            for(int k = 0; k <= i; k++)
+//            {
+//                if(k != j)
+//                {
+//                    den *= (x[j] - x[k]);
+//                }
+//            }
+//            F += y[j] / den;
+//        }
+//        for(int k = 0; k < i; k++)
+//        {
+//            F *= (x_value - x[k]);
+//        }
+//        result += F;
+//    }
+//    return result;
+
+
+    int n = x.size();
+    double result = y[0];  // Начальное значение полинома
+
+    for (int i = 1; i < n; ++i) {
+        double term = y[i];
+
+        for (int j = 0; j < i; ++j) {
+            term *= (x_value - x[j]);
         }
-        for(int k = 0; k < i; k++)
-        {
-            F *= (x_value - x[k]);
-        }
-        result += F;
+
+        result += term;
     }
+
     return result;
 }

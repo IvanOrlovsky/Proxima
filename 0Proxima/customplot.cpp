@@ -116,11 +116,13 @@ void customPlot::addPoints(QVector<double> x, QVector<double> y)
                                            -y[i] * grid_step - 2.5,
                                            5,
                                            5,
-                                           QPen(QColor(1,1,250)),
-                                           QBrush(Qt::blue)));
+                                           QPen(QColor(66, 243, 252)),
+                                           QBrush(QColor(66, 243, 252))));
     }
     scene->addItem(dots);
 }
+
+
 
 void customPlot::mousePressEvent(QMouseEvent *event)
 {
@@ -245,3 +247,27 @@ void customPlot::wheelEvent(QWheelEvent *event)
     }
 }
 
+void customPlot::getPNG()
+{
+    // Создаем QPixmap и устанавливаем его размер равным размеру сцены
+    QPixmap pixmap(this->viewport()->size());
+    pixmap.fill(Qt::transparent); // Заполняем QPixmap прозрачным цветом
+
+    // Создаем QPainter для рисования на QPixmap
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    // Рисуем сцену на QPixmap с использованием QGraphicsView
+    this->render(&painter);
+
+    // Завершаем рисование
+    painter.end();
+
+    // Запрос пользователю сохранить файл PNG
+    QString filePath = QFileDialog::getSaveFileName(this->parentWidget(), "Сохранить PNG", QString(), "PNG (*.png)");
+
+    if (!filePath.isEmpty()) {
+        // Сохранение pixmap в файл PNG
+        pixmap.save(filePath);
+    }
+}

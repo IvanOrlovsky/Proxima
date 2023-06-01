@@ -1,18 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "regression.h"
-#include "render.h"
-#include <QPropertyAnimation>
-#include <QMessageBox>
+
 
 //текст ошибки на случай разного количества точек
 #define ERROR_INPUT_DIFF_DOTS ("Вы ввели разное количество точек\n\nО правилах ввода можно узнать в справке")
-//текст ошибки на случай ввода не цифр
-#define ERROR_INPUT_NOT_NUM ("Неправильный ввод\nВведены другие символы, кроме цифр и точек\n\nО правилах ввода можно узнать в справке")
-//TO DO
-//прочие ошибки
-//справку
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,7 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     plot = new customPlot();//ui->centralwidget
     ui->gridLayout->addWidget(plot, 0, 1, 1, 1);
 
+    QRegularExpressionValidator* validator = new QRegularExpressionValidator(QRegularExpression("^(?!\\s*$)(\\d+(\\.\\d+)?(\\s\\d+(\\.\\d+)?)*)?$"));
+    ui->X_input->setValidator(validator);
+    ui->Y_input->setValidator(validator);
 
+    QObject::connect(ui->savebtn, &QPushButton::clicked, plot, &customPlot::getPNG);
 }
 
 MainWindow::~MainWindow()
@@ -48,7 +43,18 @@ void MainWindow::sidebar_animation()
     {
         animation->setStartValue(ui->sidebar->width());
         animation->setEndValue(343);
-        ui->sidebtn->setStyleSheet("background: #303035;border-style: outset;border-width: 2px; border-color: beige; border-radius: 15px; padding: 5px; color: white; font-size: 14px;");
+        ui->sidebtn->setStyleSheet("QPushButton {"
+                      "background: #303035;"
+                      "padding: 5px;"
+                      "color: white;"
+                      "font-size: 14px;"
+                      "}"
+                      "QPushButton:hover {"
+                      "background: #45454d;"
+                      "}"
+                      "QPushButton:pressed {"
+                      "background: #1e1e21;"
+                      "}");
         ui->menu->setVisible(true);
         ui->sidebtn->setText("Закрыть");
     }
@@ -56,7 +62,18 @@ void MainWindow::sidebar_animation()
     {
         animation->setStartValue(ui->sidebar->width());
         animation->setEndValue(60);
-        ui->sidebtn->setStyleSheet("background: #303035;border-style: outset;border-width: 2px; border-color: beige; border-radius: 15px; padding: 5px; color: white; font-size: 9px;");
+        ui->sidebtn->setStyleSheet("QPushButton {"
+                                   "background: #303035;"
+                                   "padding: 5px;"
+                                   "color: white;"
+                                   "font-size: 9px;"
+                                   "}"
+                                   "QPushButton:hover {"
+                                   "background: #45454d;"
+                                   "}"
+                                   "QPushButton:pressed {"
+                                   "background: #1e1e21;"
+                                   "} ");
         ui->menu->setVisible(false);
         ui->sidebtn->setText("Меню");
     }
@@ -84,17 +101,13 @@ void MainWindow::on_Build_Plot_btn_clicked()
     {
         QMessageBox::warning(this, "Ошибка!", ERROR_INPUT_DIFF_DOTS);
     }
-    //TO DO
-    /*
-    else if(smth)
+    else
     {
-        QMessageBox::warning(this, "Ошибка!", ERROR_INPUT_NOT_NUM);
+        Render::createMap(ui->X_input->text(), ui->Y_input->text());
+
+        Render::Render_graph(*ui->groupBox, *plot, ui->X_input->text());
+
+        Render::Render_dots(Render::QVectorfromQString(ui->X_input->text()), Render::QVectorfromQString(ui->Y_input->text()), *plot);
     }
-*/
-
-    Render::createMap(ui->X_input->text(), ui->Y_input->text());
-
-    Render::Render_graph(*ui->groupBox, *plot, ui->X_input->text());
-
-    Render::Render_dots(Render::QVectorfromQString(ui->X_input->text()), Render::QVectorfromQString(ui->Y_input->text()), *plot);
 }
+

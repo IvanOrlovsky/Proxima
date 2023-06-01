@@ -1,25 +1,27 @@
 #include "render.h"
 #include <QList>
-
+#include <QString>
 
 std::map<QString, Approximation*> Render::mp;
 
 QVector<double> Render::QVectorfromQString(QString input)
 {
     QVector<double> result;
-    QString temp("");
-    input += " ";
-    for(int i = 0; i < input.size(); i++)
-    {
 
-        if(!input[i].isSpace())
+    QStringList numberStrings = input.split(" ");
+
+    // Удаление пустых строк из списка
+    numberStrings.removeAll("");
+
+    // Преобразование каждой подстроки в double и добавление в вектор
+    for (const QString& numberString : numberStrings)
+    {
+        bool conversionOk;
+        double number = numberString.toDouble(&conversionOk);
+
+        if (conversionOk)
         {
-            temp.push_back(input[i]);
-        }
-        else
-        {
-            result.push_back(temp.toDouble());
-            temp = "";
+            result.append(number);
         }
     }
 
@@ -48,7 +50,7 @@ QVector<double> Render::getXvector(const QString value_input)
     QVector<double> result;
     double x_value = qRound(values[0] * qPow(10, 5)) / qPow(10, 5);
 
-    //qDebug() << "\n----------" << 1.19 + 0.01 << "--------\n";
+
     while(x_value <= values[values.size() - 1]/* + 0.00001*/)
     {
         result.push_back(x_value);

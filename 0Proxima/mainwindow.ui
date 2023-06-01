@@ -71,52 +71,48 @@ border-radius: 10px;</string>
           <string notr="true">background-color: #303035;</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
-          <item row="6" column="0">
-           <widget class="QPushButton" name="Quit_btn">
-            <property name="font">
-             <font>
-              <family>Comic Sans MS</family>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background: #ba1200;
-border-style: outset;
-border-width: 2px;
-border-color: beige;
-border-radius: 15px;
-padding: 5px;
-color: white;</string>
-            </property>
-            <property name="text">
-             <string>Выйти</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0">
            <widget class="QPushButton" name="Build_Plot_btn">
             <property name="font">
              <font>
-              <family>Comic Sans MS</family>
-              <pointsize>13</pointsize>
+              <family>Calibri</family>
+              <pointsize>16</pointsize>
               <italic>false</italic>
               <bold>true</bold>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background: #508aa8;
-border-style: outset;
-border-width: 2px;
-border-color: beige;
-border-radius: 15px;
-padding: 5px;
-color: white;</string>
+             <string notr="true">QPushButton {
+                     background: #82D173;
+                     border-style: outset;
+                     padding: 5px;
+                     color: white;
+                     }
+                     QPushButton:hover {
+                     background: #9BD88B;
+                     }
+                     QPushButton:pressed {
+                     background: #64974D;
+                     border-style: inset;
+                     }</string>
             </property>
             <property name="text">
              <string>Построить график</string>
             </property>
            </widget>
+          </item>
+          <item row="5" column="0">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="0" column="0">
            <layout class="QGridLayout" name="input_grid">
@@ -127,7 +123,9 @@ color: white;</string>
              <widget class="QLabel" name="Y_Axis_label">
               <property name="font">
                <font>
-                <family>Comic Sans MS</family>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <bold>true</bold>
                </font>
               </property>
               <property name="styleSheet">
@@ -142,7 +140,9 @@ color: white;</string>
              <widget class="QLabel" name="X_Axis_label">
               <property name="font">
                <font>
-                <family>Comic Sans MS</family>
+                <family>Calibri</family>
+                <pointsize>12</pointsize>
+                <bold>true</bold>
                </font>
               </property>
               <property name="styleSheet">
@@ -194,7 +194,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Linear_Inter">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -209,7 +211,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Linear_Reg">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -224,8 +228,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Quadratic_Inter">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
-                 <pointsize>9</pointsize>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -240,8 +245,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Quadratic_Reg">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
-                 <pointsize>9</pointsize>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -256,7 +262,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Lagranzhe">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -271,8 +279,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Hyperbolic_Reg">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
-                 <pointsize>9</pointsize>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -287,7 +296,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Newton">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -302,8 +313,9 @@ color: white;</string>
               <widget class="QCheckBox" name="Exponent_Reg">
                <property name="font">
                 <font>
-                 <family>Comic Sans MS</family>
-                 <pointsize>9</pointsize>
+                 <family>Calibri</family>
+                 <pointsize>12</pointsize>
+                 <bold>true</bold>
                 </font>
                </property>
                <property name="styleSheet">
@@ -332,18 +344,59 @@ color: white;</string>
             </layout>
            </widget>
           </item>
-          <item row="5" column="0">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="7" column="0">
+           <widget class="QPushButton" name="Quit_btn">
+            <property name="font">
+             <font>
+              <family>Calibri</family>
+              <pointsize>12</pointsize>
+              <bold>true</bold>
+             </font>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+                      background: #BA1F33;
+                      padding: 5px;
+                      color: white;
+                      }
+                      QPushButton:hover {
+                      background: #ff0000;
+                      }
+                      QPushButton:pressed {
+                      background: #800000;
+                     }</string>
             </property>
-           </spacer>
+            <property name="text">
+             <string>Выйти</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QPushButton" name="savebtn">
+            <property name="font">
+             <font>
+              <family>Calibri</family>
+              <pointsize>12</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+                    background: #ECB8A5;
+                     padding: 5px;
+                     color: #303035;
+                     }
+                     QPushButton:hover {
+                     background: #FFC8B3;
+                     }
+                     QPushButton:pressed {
+                     background: #D98D7B;
+                     }</string>
+            </property>
+            <property name="text">
+             <string>Сохранить график</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -365,22 +418,28 @@ color: white;</string>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>500</height>
+           <height>16777215</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <family>Comic Sans MS</family>
+           <family>Calibri</family>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: #303035;
-border-style: outset;
-border-width: 2px;
-border-color: beige;
-border-radius: 15px;
-padding: 5px;
-color: white;</string>
+          <string notr="true">QPushButton {
+                      background: #303035;
+                      padding: 5px;
+                      color: white;
+                      }
+                      QPushButton:hover {
+                      background: #45454d;
+                      }
+                      QPushButton:pressed {
+                      background: #1e1e21;
+                     }</string>
          </property>
          <property name="text">
           <string>Закрыть</string>

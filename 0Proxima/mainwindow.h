@@ -4,6 +4,13 @@
 #include <QMainWindow>
 #include <QVector>
 #include <QPropertyAnimation>
+#include "regression.h"
+#include "render.h"
+#include <QPropertyAnimation>
+#include <QMessageBox>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+#include <QValidator>
 #include "customplot.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +32,8 @@ private slots:
     void on_Quit_btn_clicked();
 
     void on_Build_Plot_btn_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

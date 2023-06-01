@@ -12,6 +12,9 @@
 #include <QVector>
 #include <QDebug>
 #include <QScrollBar>
+#include <QPixmap>
+#include <QFileDialog>
+#include <QPainter>
 
 class customPlot : public QGraphicsView
 {
@@ -24,6 +27,8 @@ public:
     void addPlot(QVector<double> x, QVector<double> y);
     //Метод добавления точек
     void addPoints(QVector<double> x, QVector<double> y);
+
+    void getPNG();
 public slots:
 
 signals:
